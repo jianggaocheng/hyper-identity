@@ -1,0 +1,36 @@
+{{#extend "layout"}}
+{{#content "head"}}
+<title>HyperIdentity | Login</title>
+<style>
+body{
+    background-color: #f3f3f4;
+}
+.loginscreen {
+    padding-top: 10%;
+}
+</style>
+{{/content}}
+{{#content "main" mode="append"}}
+<div class="middle-box text-center loginscreen animated fadeInDown">
+    <div>
+        <div class="login-pic"><img src="/appPublic/img/login-lock.png"/></div>
+        <h2>Welcome to HyperIdentity</h2>
+        <p>统一身份鉴权平台</p>
+        <form class="m-t" role="form" action="index.html">
+            <div class="form-group">
+                <input type="email" class="form-control" placeholder="请输入邮箱" required="" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="请输入密码" required="" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;" autocomplete="off">
+            </div>
+            <button type="submit" class="btn btn-primary block full-width m-b">登录HyperIndentity</button>
+
+            <a href="#"><small>忘记密码?</small></a>
+            <p class="text-muted text-center"><small>还没加入HyperIndentity?</small></p>
+            <a class="btn btn-sm btn-white btn-block" href="register.html">注册新用户</a>
+        </form>
+        <p class="m-t"> <small>HyperIndentity © 2017</small> </p>
+    </div>
+</div>
+{{/content}}
+{{/extend}}
