@@ -7,6 +7,8 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.15.4",
+    "mongodb": "^2.2.31",
+    "orm": "^3.2.4",
     "seneca": "^3.4.2"
   }
 }

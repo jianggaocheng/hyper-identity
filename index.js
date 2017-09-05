@@ -15,9 +15,11 @@ framework.app.use('/appPublic', express.static('./app/public'));
 // framework.app.use('/admin', require('./admin/router'));
 
 http.createServer(framework.app).listen(tutu.config.port, function() {
-    tutu.coreLogger.debug("Listening on port " + tutu.config.port);
+    tutu.logger.debug("Listening on port " + tutu.config.port);
 }).on('error', function(e) {
     if (e.code == 'EADDRINUSE') {
-        tutu.coreLogger.error('Address in use. Is the server already running?');
+        tutu.logger.error('Address in use. Is the server already running?');
     }
 });
+
+require('./db-microservice');
