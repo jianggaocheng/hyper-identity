@@ -1,25 +1,49 @@
-const framework = require('tutu-framework');
-const http = require('http');
-const path = require('path');
-const express = require('express');
+const framework = require("tutu-framework");
+const path = require("path");
+const orm = require("orm");
+const session = require("express-session");
+const config = require("./config");
+
+config.dev = !(process.env.NODE_ENV === "production");
 
 global.tutu = {};
 Object.assign(tutu, framework.Logger);
+tutu.config = Object.assign({}, config);
 
-let templates = new framework.Template();
-tutu.templates = templates.load('./app/template');
+// session
+framework.app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: "tutu"
+  })
+);
 
-tutu.config = framework.utils.loadConfig(path.join(__dirname, './config'));
-framework.app.use('/', require('./app/router'));
-framework.app.use('/appPublic', express.static('./app/public'));
-// framework.app.use('/admin', require('./admin/router'));
+framework.app.use("/api", require("./admin_router"));
 
-http.createServer(framework.app).listen(tutu.config.port, function() {
-    tutu.logger.debug("Listening on port " + tutu.config.port);
-}).on('error', function(e) {
-    if (e.code == 'EADDRINUSE') {
-        tutu.logger.error('Address in use. Is the server already running?');
-    }
+// connect server
+orm.connect(tutu.config.database, function(err, db) {
+  if (err) {
+    tutu.logger.error(err);
+    throw err;
+  }
+
+  tutu.models = db.models;
+  db.settings.set("instance.returnAllErrors", true);
+  tutu.logger.debug("Database connected");
+
+  require("./model").init(orm, db);
+
+  db.sync(function() {
+    tutu.logger.debug("Database synced");
+
+    // init db
+    // let importData = require('./importData');
+    // importData.importData(tutu);
+
+    // Listen the server
+    framework.app.listen(tutu.config.port, () => {
+      tutu.logger.debug("Server listening on port:" + config.port);
+    });
+  });
 });
-
-require('./db-microservice');
