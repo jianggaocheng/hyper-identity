@@ -32,6 +32,13 @@ var init = function(orm, db) {
   );
 
   db.models.domain.hasOne(
+    "masterAdmin",
+    db.models.user,
+    { field: "masterAdminId" },
+    { autoFetch: true }
+  );
+
+  db.models.domain.hasOne(
     "parentDomain",
     db.models.domain,
     { field: "parentId" },

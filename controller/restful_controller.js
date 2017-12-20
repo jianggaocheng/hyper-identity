@@ -155,7 +155,7 @@ module.exports = {
       }
 
       for (var j in newEntity) {
-        if (_.isObject(newEntity[j])) {
+        if (_.isObject(newEntity[j]) && !_.isArray(newEntity[j])) {
           delete newEntity[j];
         }
       }

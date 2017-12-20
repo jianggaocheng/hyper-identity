@@ -1,3 +1,5 @@
+const authHelper = require('../helper/authHelper');
+
 module.exports = function(orm, db) {
   var Object = db.define(
     "user",
@@ -5,7 +7,7 @@ module.exports = function(orm, db) {
       email: { type: "text" },
       phone: { type: "text" },
       username: { type: "text" },
-      password: { type: "text", required: true },
+      password: { type: "text"},
       name: { type: "text" },
       encryptToken: { type: 'text' },
       expireAt: { type: "date", time: true },
@@ -16,6 +18,14 @@ module.exports = function(orm, db) {
       hooks: {
         beforeCreate: function(next) {
           this.createAt = new Date();
+          return next();
+        },
+        beforeSave: function(next) {
+          if (this.newPassword) {
+            this.password = authHelper.encrypt(this.newPassword, tutu.config.jwtKey);
+            this.newPassword = null;
+            delete this.newPassword;
+          }
           return next();
         },
         afterLoad: function(next) {

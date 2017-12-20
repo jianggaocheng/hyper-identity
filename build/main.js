@@ -521,7 +521,7 @@ module.exports = {
       }
 
       for (var j in newEntity) {
-        if (_.isObject(newEntity[j])) {
+        if (_.isObject(newEntity[j]) && !_.isArray(newEntity[j])) {
           delete newEntity[j];
         }
       }
@@ -582,6 +582,8 @@ var init = function init(orm, db) {
     privilege: { type: "text" }
   }, { autoFetch: true });
 
+  db.models.domain.hasOne("masterAdmin", db.models.user, { field: "masterAdminId" }, { autoFetch: true });
+
   db.models.domain.hasOne("parentDomain", db.models.domain, { field: "parentId" }, { autoFetch: true });
 };
 
@@ -589,14 +591,16 @@ module.exports.init = init;
 
 /***/ }),
 /* 19 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var authHelper = __webpack_require__(11);
 
 module.exports = function (orm, db) {
   var Object = db.define("user", {
     email: { type: "text" },
     phone: { type: "text" },
     username: { type: "text" },
-    password: { type: "text", required: true },
+    password: { type: "text" },
     name: { type: "text" },
     encryptToken: { type: 'text' },
     expireAt: { type: "date", time: true },
@@ -606,6 +610,14 @@ module.exports = function (orm, db) {
     hooks: {
       beforeCreate: function beforeCreate(next) {
         this.createAt = new Date();
+        return next();
+      },
+      beforeSave: function beforeSave(next) {
+        if (this.newPassword) {
+          this.password = authHelper.encrypt(this.newPassword, tutu.config.jwtKey);
+          this.newPassword = null;
+          delete this.newPassword;
+        }
         return next();
       },
       afterLoad: function afterLoad(next) {
